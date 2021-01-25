@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".StudentEntryActivity">
+
+
+    <EditText
+        android:id="@+id/et_student_id_card_no"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Enter Student ID Card no"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/et_student_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Enter Student Name"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/et_student_institute"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Enter Student Institute"
+        android:inputType="text" />
+
+
+    <EditText
+        android:id="@+id/et_student_age"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Enter Student age"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/et_student_phone"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Enter Student Phone number"
+        android:inputType="phone" />
+
+
+    <Button
+        android:id="@+id/btn_enter_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Data" />
+
+</LinearLayout>
