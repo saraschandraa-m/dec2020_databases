@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class StudentEntryActivity extends AppCompatActivity {
 
@@ -23,6 +26,7 @@ public class StudentEntryActivity extends AppCompatActivity {
         final EditText mEtStudentPhone = findViewById(R.id.et_student_phone);
 
         Button mBtnEnterData = findViewById(R.id.btn_enter_data);
+        Button mBtnGetData = findViewById(R.id.btn_get_data);
 
         dbHelper = new DBHelper(StudentEntryActivity.this);
 
@@ -46,9 +50,25 @@ public class StudentEntryActivity extends AppCompatActivity {
                 dbHelper.insertDataToDatabase(student, dbHelper.getWritableDatabase());
 
 
+                mEtStudentAge.setText("");
+                mEtStudentIDcardNo.setText("");
+                mEtStudentInstitute.setText("");
+                mEtStudentName.setText("");
+                mEtStudentPhone.setText("");
 //                student.setStudentIDCardNo(idCardNo);
 //                student.setStudentAge(Integer.parseInt(studentAge));
             }
         });
+
+
+        mBtnGetData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<StudentInfo> studentList = dbHelper.getStudentDetailsFromDatabase(dbHelper.getReadableDatabase());
+
+                Toast.makeText(StudentEntryActivity.this, ""+studentList.size(), Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 }

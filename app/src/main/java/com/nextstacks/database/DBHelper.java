@@ -2,10 +2,13 @@ package com.nextstacks.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -47,4 +50,37 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.put(COL_STUDENT_PHONE, studentInfo.studentPhoneNumber);
         database.insert(TABLE_NAME, null, cv);
     }
+
+
+    public ArrayList<StudentInfo> getStudentDetailsFromDatabase(SQLiteDatabase database){
+        ArrayList<StudentInfo> studentsList = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("SELECT * FROM "+TABLE_NAME, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                StudentInfo newStudentInfo = new StudentInfo();
+                newStudentInfo.id = cursor.getInt(cursor.getColumnIndex(COL_ID));
+                newStudentInfo.studentName = cursor.getString(cursor.getColumnIndex(COL_STUDENT_NAME));
+                newStudentInfo.studentInstitute = cursor.getString(cursor.getColumnIndex(COL_STUDENT_INSTITUTE));
+                newStudentInfo.studentPhoneNumber = cursor.getLong(cursor.getColumnIndex(COL_STUDENT_PHONE));
+                newStudentInfo.studentAge = cursor.getInt(cursor.getColumnIndex(COL_STUDENT_AGE));
+                newStudentInfo.studentIDCardNo = cursor.getString(cursor.getColumnIndex(COL_STUDENT_ID));
+
+                studentsList.add(newStudentInfo);
+            }while(cursor.moveToNext());
+        }
+
+        cursor.close();
+
+
+//        while(cursor.moveToNext()){
+//
+//        }
+
+
+        return studentsList;
+    }
+
+
 }
