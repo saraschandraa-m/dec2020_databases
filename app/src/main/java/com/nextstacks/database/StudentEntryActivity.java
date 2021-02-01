@@ -2,6 +2,7 @@ package com.nextstacks.database;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -64,9 +65,10 @@ public class StudentEntryActivity extends AppCompatActivity {
         mBtnGetData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<StudentInfo> studentList = dbHelper.getStudentDetailsFromDatabase(dbHelper.getReadableDatabase());
+//                ArrayList<StudentInfo> studentList = dbHelper.getStudentDetailsFromDatabase(dbHelper.getReadableDatabase());
 
-                Toast.makeText(StudentEntryActivity.this, ""+studentList.size(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(StudentEntryActivity.this, ""+studentList.size(), Toast.LENGTH_LONG).show();
+                startActivity(new Intent(StudentEntryActivity.this, StudentViewActivity.class));
             }
         });
 
