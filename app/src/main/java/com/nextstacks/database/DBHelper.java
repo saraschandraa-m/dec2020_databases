@@ -22,8 +22,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //CREATE TABLE student_detail(id INTEGER PRIMARY KEY AUTOINCREMENT,student_id TEXT,student_name TEXT,student_institute TEXT,student_age TEXT,student_phone INTEGER);
 
-    private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME+"("+COL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+COL_STUDENT_AGE+
-            " INTEGER,"+COL_STUDENT_NAME + " TEXT," + COL_STUDENT_ID + " TEXT," +COL_STUDENT_INSTITUTE + " TEXT," + COL_STUDENT_PHONE +
+    private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_STUDENT_AGE +
+            " INTEGER," + COL_STUDENT_NAME + " TEXT," + COL_STUDENT_ID + " TEXT," + COL_STUDENT_INSTITUTE + " TEXT," + COL_STUDENT_PHONE +
             " INTEGER)";
 
 
@@ -41,7 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void insertDataToDatabase(StudentInfo studentInfo, SQLiteDatabase database){
+    public void insertDataToDatabase(StudentInfo studentInfo, SQLiteDatabase database) {
         ContentValues cv = new ContentValues();
         cv.put(COL_STUDENT_ID, studentInfo.studentIDCardNo);
         cv.put(COL_STUDENT_NAME, studentInfo.studentName);
@@ -52,13 +52,13 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<StudentInfo> getStudentDetailsFromDatabase(SQLiteDatabase database){
+    public ArrayList<StudentInfo> getStudentDetailsFromDatabase(SQLiteDatabase database) {
         ArrayList<StudentInfo> studentsList = new ArrayList<>();
 
-        Cursor cursor = database.rawQuery("SELECT * FROM "+TABLE_NAME, null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_NAME, null);
 
-        if(cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 StudentInfo newStudentInfo = new StudentInfo();
                 newStudentInfo.id = cursor.getInt(cursor.getColumnIndex(COL_ID));
                 newStudentInfo.studentName = cursor.getString(cursor.getColumnIndex(COL_STUDENT_NAME));
@@ -68,7 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 newStudentInfo.studentIDCardNo = cursor.getString(cursor.getColumnIndex(COL_STUDENT_ID));
 
                 studentsList.add(newStudentInfo);
-            }while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
 
         cursor.close();
@@ -82,5 +82,20 @@ public class DBHelper extends SQLiteOpenHelper {
         return studentsList;
     }
 
+    public void deleteStudentData(SQLiteDatabase database, StudentInfo studentInfo) {
+        database.delete(TABLE_NAME, COL_ID + " = " + studentInfo.id, null);
+    }
+
+
+    public void updateStudentData(SQLiteDatabase database, StudentInfo studentInfo) {
+        ContentValues cv = new ContentValues();
+        cv.put(COL_STUDENT_AGE, studentInfo.studentAge);
+        cv.put(COL_STUDENT_INSTITUTE, studentInfo.studentInstitute);
+        cv.put(COL_STUDENT_ID, studentInfo.studentIDCardNo);
+        cv.put(COL_STUDENT_PHONE, studentInfo.studentPhoneNumber);
+        cv.put(COL_STUDENT_NAME, studentInfo.studentName);
+
+        database.update(TABLE_NAME, cv, COL_ID + "=" + studentInfo.id, null);
+    }
 
 }

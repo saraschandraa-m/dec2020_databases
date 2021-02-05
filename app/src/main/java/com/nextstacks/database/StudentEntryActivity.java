@@ -2,6 +2,7 @@ package com.nextstacks.database;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,9 @@ import java.util.ArrayList;
 public class StudentEntryActivity extends AppCompatActivity {
 
     private DBHelper dbHelper;
+
+    private boolean isEdit = false;
+    private StudentInfo editStudentInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,21 @@ public class StudentEntryActivity extends AppCompatActivity {
         Button mBtnGetData = findViewById(R.id.btn_get_data);
 
         dbHelper = new DBHelper(StudentEntryActivity.this);
+
+        Bundle data = getIntent().getExtras();
+        if (data != null) {
+            isEdit = data.getBoolean("IS_EDIT");
+            editStudentInfo = (StudentInfo) data.getSerializable("STUDENT_DATA");
+
+            if (isEdit) {
+                mEtStudentIDcardNo.setText(editStudentInfo.studentIDCardNo);
+                mEtStudentInstitute.setText(editStudentInfo.studentInstitute);
+                mEtStudentAge.setText(String.valueOf(editStudentInfo.studentAge));
+                mEtStudentName.setText(editStudentInfo.studentName);
+                mEtStudentPhone.setText(String.valueOf(editStudentInfo.studentPhoneNumber));
+            }
+        }
+
 
         mBtnEnterData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +67,15 @@ public class StudentEntryActivity extends AppCompatActivity {
                 student.studentName = studentName;
 
 
-                dbHelper.insertDataToDatabase(student, dbHelper.getWritableDatabase());
+                if (!isEdit) {
+                    dbHelper.insertDataToDatabase(student, dbHelper.getWritableDatabase());
+                } else {
+                    student.id = editStudentInfo.id;
+
+                    dbHelper.updateStudentData(dbHelper.getWritableDatabase(), student);
+                    setResult(Activity.RESULT_OK);
+                    finish();
+                }
 
 
                 mEtStudentAge.setText("");

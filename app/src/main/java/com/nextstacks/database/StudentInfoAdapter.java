@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,13 +17,18 @@ public class StudentInfoAdapter extends RecyclerView.Adapter<StudentInfoAdapter.
 
     private Context context;
     private ArrayList<StudentInfo> studentInfoList;
+    private StudentDetailClickListener listener;
 
-    public StudentInfoAdapter(Context context, ArrayList<StudentInfo> studentInfoList){
+    public StudentInfoAdapter(Context context, ArrayList<StudentInfo> studentInfoList) {
         this.context = context;
         this.studentInfoList = studentInfoList;
     }
 
-    public StudentInfoAdapter(){
+    public void setListener(StudentDetailClickListener listener) {
+        this.listener = listener;
+    }
+
+    public StudentInfoAdapter() {
 
     }
 
@@ -46,11 +52,29 @@ public class StudentInfoAdapter extends RecyclerView.Adapter<StudentInfoAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull StudentInfoHolder holder, int position) {
-        StudentInfo student = studentInfoList.get(position);
+        final StudentInfo student = studentInfoList.get(position);
 
         holder.mTvStudentID.setText(student.studentIDCardNo);
         holder.mTvStudentName.setText(student.studentName);
         holder.mTvStudentPhoneNumber.setText(String.valueOf(student.studentPhoneNumber));
+
+        holder.mRlEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onEditClicked(student);
+                }
+            }
+        });
+
+        holder.mRlDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onDeleteClicked(student);
+                }
+            }
+        });
     }
 
     @Override
@@ -58,11 +82,13 @@ public class StudentInfoAdapter extends RecyclerView.Adapter<StudentInfoAdapter.
         return studentInfoList.size();
     }
 
-    class StudentInfoHolder extends RecyclerView.ViewHolder{
+    class StudentInfoHolder extends RecyclerView.ViewHolder {
 
         private TextView mTvStudentID;
         private TextView mTvStudentName;
         private TextView mTvStudentPhoneNumber;
+        private RelativeLayout mRlEdit;
+        private RelativeLayout mRlDelete;
 
         public StudentInfoHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +96,15 @@ public class StudentInfoAdapter extends RecyclerView.Adapter<StudentInfoAdapter.
             mTvStudentID = itemView.findViewById(R.id.tv_student_id_card_no);
             mTvStudentName = itemView.findViewById(R.id.tv_student_name);
             mTvStudentPhoneNumber = itemView.findViewById(R.id.tv_student_phone_number);
+
+            mRlEdit = itemView.findViewById(R.id.rl_edit);
+            mRlDelete = itemView.findViewById(R.id.rl_delete);
         }
+    }
+
+    public interface StudentDetailClickListener {
+        void onEditClicked(StudentInfo studentInfo);
+
+        void onDeleteClicked(StudentInfo studentInfo);
     }
 }
