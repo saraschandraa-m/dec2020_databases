@@ -1,6 +1,7 @@
 package com.nextstacks.database;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,8 @@ public class StudentInfoAdapter extends RecyclerView.Adapter<StudentInfoAdapter.
         holder.mTvStudentID.setText(student.studentIDCardNo);
         holder.mTvStudentName.setText(student.studentName);
         holder.mTvStudentPhoneNumber.setText(String.valueOf(student.studentPhoneNumber));
+
+        holder.mTvStudentName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         holder.mRlEdit.setOnClickListener(new View.OnClickListener() {
             @Override

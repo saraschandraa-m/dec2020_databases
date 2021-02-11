@@ -6,11 +6,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".StudentViewActivity">
-    
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rc_student_infos"
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_student_infos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>
